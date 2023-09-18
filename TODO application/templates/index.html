@@ -1,29 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>TODO App</title>
+    <title>Todo App</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>TODO List</h1>
-    <form action="/remove" method="post">
-        {% for date, tasks in todo_list.items() %}
-            <h2>{{ date }}</h2>
-            <ul>
-                {% for task in tasks %}
-                    <li>
-                        <input type="checkbox" name="completed_task" value="{{ date }}|{{ loop.index0 }}">
-                        {{ task }}
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endfor %}
-        <button type="submit">Remove Completed</button>
+    <h1>Todo List</h1>
+    <form action="/remove_completed" method="post">
+        <button type="submit" style="background-color: #FF0000; color: white;">Remove Completed</button>
     </form>
-
-    <form action="/add" method="post">
-        <label for="todo_item">Add TODO item:</label>
-        <input type="text" id="todo_item" name="todo_item">
-        <button type="submit">Add</button>
-    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>Description</th>
+                <th>Date</th>
+                <th>Completed</th>
+            </tr>
+        </thead>
+        <tbody>
+            <form action="/add" method="post">
+                <tr>
+                    <td><input type="text" name="description" placeholder="Enter todo description"></td>
+                    <td><input type="date" name="date"></td>
+                    <td><button type="submit" style="background-color: #4CAF50; color: white;">Add</button></td>
+                </tr>
+            </form>
+            {% for todo in todos %}
+                <tr>
+                    <td>{{ todo['description'] }}</td>
+                    <td>{{ todo['date'] }}</td>
+                    <td>
+                        <input type="checkbox" name="completed" {% if todo['completed'] %}checked{% endif %} disabled>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </body>
 </html>
