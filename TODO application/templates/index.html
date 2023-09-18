@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TODO App</title>
+</head>
+<body>
+    <h1>TODO List</h1>
+    <form action="/remove" method="post">
+        {% for date, tasks in todo_list.items() %}
+            <h2>{{ date }}</h2>
+            <ul>
+                {% for task in tasks %}
+                    <li>
+                        <input type="checkbox" name="completed_task" value="{{ date }}|{{ loop.index0 }}">
+                        {{ task }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+        <button type="submit">Remove Completed</button>
+    </form>
+
+    <form action="/add" method="post">
+        <label for="todo_item">Add TODO item:</label>
+        <input type="text" id="todo_item" name="todo_item">
+        <button type="submit">Add</button>
+    </form>
+</body>
+</html>
